@@ -1,18 +1,27 @@
 <template>
 	<div>
 		<div class="row">
-			<div  class="col m4">
-				<draggable element="ul" :list="components" class="collection dragArea" :options="componentsOptions">
+			<div class="col s12 m4">
+				<draggable element="ul" :list="components" class="collection dragArea" :options="componentsOptions" :clone="onClone">
 					<li v-for="component in components" class="collection-item">
 						<i :class="component.icon"></i> {{component.label}}
 					</li>
 				</draggable>
 			</div>
 
-			<div  class="col m8">
-				<draggable element="ul" :list="formItems" class="collection dropArea" :options="formOptions" :move="onMove" @start="isDragging=true" @end="isDragging=false">
-					<li v-for="item in formItems" class="collection-item">
-						<i :class="item.icon"></i>{{item.label}}<i :class="item.fixed? 'mdi mdi-pin right' : 'mdi mdi-pin-off right'" @click=" item.fixed=! item.fixed" aria-hidden="true"></i> 
+			<div class="col s12 m8">
+				<draggable element="ul" data-collapsible="accordion" :list="formItems" class="collapsible dropArea" :options="formOptions" :move="onMove" @start="isDragging=true" @end="isDragging=false">
+					<li v-for="item in formItems">
+						<div class="collapsible-header">
+							<i :class="item.icon"></i>{{item.label}}
+							<div class="right">
+								<i :class="item.fixed? 'mdi mdi-pin' : 'mdi mdi-pin-off'" @click.stop="item.fixed = !item.fixed" aria-hidden="true"></i>
+								<i class="mdi mdi-delete" @click.stop="destroy(item)" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div class="collapsible-body">
+
+						</div>
 					</li>
 				</draggable>
 			</div>
@@ -40,19 +49,16 @@
 				{
 					label: "Checkbox",
 					type: "checkbox",
-					fixed: false,
 					icon: "mdi mdi-checkbox-marked-outline"
 				},
 				{
 					label: "Checkbox group",
 					type: "checkbox-group",
-					fixed: false,
 					icon: "mdi mdi-checkbox-multiple-marked-outline"
 				},
 				{
 					label: "Radio group",
 					type: "radio-group",
-					fixed: false,
 					icon: "mdi mdi-checkbox-multiple-marked-circle-outline"
 				},
 				],
@@ -66,6 +72,18 @@
 				const relatedElement = relatedContext.element;
 				const draggedElement = draggedContext.element;
 				return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+			},
+			onClone (el) {
+				return {
+					label: el.label,
+					type: el.type,
+					icon: el.icon,
+					name : el.type + '-' + Date.now(),
+					fixed: false
+				}
+			},
+			destroy (item) {
+				console.log(item);
 			}
 		},
 		computed: {
@@ -121,5 +139,15 @@
 	.dropArea {
 		background: #f5f5f5;
 		min-height: 100px;
+		padding: 10px 0;
+	}
+
+	.collapsible-header {
+		width: 100%;
+	}
+
+	.collapsible-body {
+		width: 100%;
+		background: #fff;
 	}
 </style>
