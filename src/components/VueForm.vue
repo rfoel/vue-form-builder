@@ -20,7 +20,18 @@
 							</div>
 						</div>
 						<div class="collapsible-body">
-
+							<input type="checkbox" :id="item.name + '-required'" :checked="item.required" @click.stop="item.required = !item.required"  />
+							<label :for="item.name + '-required'" :checked="item.required">Required</label>
+							<br>
+							<br>
+							<div class="input-field">
+								<input :id="item.name + '-label'" type="text" v-model="item.label">
+								<label class="active" :for="item.name + '-label'">Label</label>
+							</div>
+							<div class="input-field">
+								<input :id="item.name + '-name'" type="text" v-model="item.name">
+								<label class="active" :for="item.name + '-name'">Name</label>
+							</div>
 						</div>
 					</li>
 				</draggable>
@@ -40,26 +51,34 @@
 
 	export default {
 		name: 'vue-form',
-		components: {
-			draggable,
-		},
+		components: { draggable },
 		data () {
 			return {
 				components: [
 				{
+					icon: "mdi mdi-checkbox-marked-outline",
 					label: "Checkbox",
-					type: "checkbox",
-					icon: "mdi mdi-checkbox-marked-outline"
+					type: "checkbox"
 				},
 				{
+					icon: "mdi mdi-checkbox-multiple-marked-outline",
 					label: "Checkbox group",
-					type: "checkbox-group",
-					icon: "mdi mdi-checkbox-multiple-marked-outline"
+					type: "checkbox-group"
 				},
 				{
+					icon: "mdi mdi-checkbox-multiple-marked-circle-outline",
 					label: "Radio group",
-					type: "radio-group",
-					icon: "mdi mdi-checkbox-multiple-marked-circle-outline"
+					type: "radio-group"
+				},
+				{
+					icon: "mdi mdi-textbox",
+					label: "Text field",
+					type: "text"
+				},
+				{
+					icon: "mdi mdi-file-document-box",
+					label: "Textarea",
+					type: "textarea"
 				},
 				],
 				formItems:[],
@@ -74,13 +93,12 @@
 				return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
 			},
 			onClone (el) {
-				return {
-					label: el.label,
-					type: el.type,
-					icon: el.icon,
-					name : el.type + '-' + Date.now(),
-					fixed: false
-				}
+				var input = JSON.parse(JSON.stringify(el));
+				input.name = input.type + '-' + Date.now();
+				input.fixed = false;
+				input.required = false;
+
+				return input
 			},
 			destroy (item) {
 				console.log(item);
