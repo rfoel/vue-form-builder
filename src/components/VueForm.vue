@@ -23,7 +23,7 @@
 							<input type="checkbox" :id="item.name + '-required'" :checked="item.required" @click.stop="item.required = !item.required"  />
 							<label :for="item.name + '-required'">Required</label>
 							<div v-if="['select', 'file'].includes(item.type)">
-							<br>
+								<br>
 								<input type="checkbox" :id="item.name + '-multiple'" :checked="item.multiple" @click.stop="item.multiple = !item.multiple"  />
 								<label :for="item.name + '-multiple'">Multiple</label>
 							</div>
@@ -35,6 +35,15 @@
 								<input :id="item.name + '-label'" type="text" v-model="item.label">
 								<label class="active" :for="item.name + '-label'">Label</label>
 							</div>
+
+
+							<div v-if="['text', 'password', 'email'].includes(item.type)">
+								<label>Type</label>
+								<select v-model="item.type"  class="browser-default">
+									<option  v-for="(option, index) in optionType" :key="index" :value="option.value" >{{option.label}}</option>
+								</select>
+							</div>
+
 							<div v-if="['checkbox-group', 'radio-group', 'select'].includes(item.type)">
 								<label>Values</label>
 								<draggable element="ul" :list="item.values" class="collection" :options="{group:{name:'item.values'}}">
@@ -58,6 +67,7 @@
 									<a class="btn right waves-effect" @click.stop="addOption(item.values)">Add option</a>
 								</div>
 							</div>
+							
 						</div>
 					</li>
 				</draggable>
@@ -133,7 +143,7 @@
 				{
 					icon: "mdi mdi-textbox",
 					label: "Text field",
-					type: "text"
+					type: "text",
 				},
 				{
 					icon: "mdi mdi-file-document-box",
@@ -169,8 +179,28 @@
 					type: "file",
 					multiple: false
 				},
+				{
+					icon: "mdi mdi-calendar",
+					label: "Date field",
+					type: "date",
+				},
+				
 				],
 				formItems:[],
+				optionType: [
+				{
+					label: "Text",
+					value: "text",
+				},
+				{
+					label: "Email",
+					value: "email",
+				},
+				{
+					label: "Password",
+					value: "password",
+				},
+				],
 				isDragging: false,
 				delayedDragging:false
 			}
