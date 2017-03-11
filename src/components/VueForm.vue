@@ -22,8 +22,11 @@
 						<div class="collapsible-body">
 							<input type="checkbox" :id="item.name + '-required'" :checked="item.required" @click.stop="item.required = !item.required"  />
 							<label :for="item.name + '-required'">Required</label>
+							<div v-if="['select', 'file'].includes(item.type)">
 							<br>
-							<br>
+								<input type="checkbox" :id="item.name + '-multiple'" :checked="item.multiple" @click.stop="item.multiple = !item.multiple"  />
+								<label :for="item.name + '-multiple'">Multiple</label>
+							</div>
 							<div class="input-field">
 								<input :id="item.name + '-description'" type="text" v-model="item.description">
 								<label :for="item.name + '-description'">Help text</label>
@@ -45,7 +48,7 @@
 												<input :id="'option-value-' + index" type="text" v-model="option.value">
 												<label class="active" :for="'option-value-' + index">Value</label>
 											</div>
-											<div class="col s2" v-if="item.values.length > 2">
+											<div class="middle" v-if="item.values.length > 2">
 												<i class="mdi mdi-close" @click.stop="removeOption(item.values, index)"></i>
 											</div>											
 										</div>
@@ -141,6 +144,7 @@
 					icon: 'mdi mdi-menu',
 					label: 'Select',
 					type: 'select',
+					multiple: false,
 					values: [
 					{
 						label: "Option 1",
@@ -158,7 +162,13 @@
 						selected: false
 					}
 					]
-				}
+				},
+				{
+					icon: "mdi mdi-file",
+					label: "File input",
+					type: "file",
+					multiple: false
+				},
 				],
 				formItems:[],
 				isDragging: false,
@@ -230,9 +240,17 @@
 	}
 </script>
 
-<style lang="less">
+<style>
 	.mdi {
 		font-size: 1.4em;
+	}
+
+
+	.mdi-pin, .mdi-pin-off, .mdi-close {
+		cursor: pointer;
+	}
+
+	.mdi:before {
 		vertical-align: bottom;
 	}
 
@@ -240,13 +258,9 @@
 		cursor: move;
 	}
 
-	.mdi-pin, .mdi-pin-off, .mdi-close {
-		cursor: pointer;
-	}
-
 	.dropArea {
 		background: #f5f5f5;
-		min-height: 270px;
+		min-height: 300px;
 		padding: 10px 0;
 	}
 
@@ -255,15 +269,23 @@
 	}
 
 	.collapsible-body {
+		padding: 1rem 2rem !important;
 		width: 100%;
 		background: #fff;
+	}
+
+	.middle {
+		height: 56px;
+		line-height: 56px;
+		text-align: center
 	}
 
 	.no-margin-bot {
 		margin-bottom: 0 !important;
 
-		input {
-			margin-bottom: 0 !important;
-		}
+	}
+
+	input {
+		margin-bottom: 5px !important;
 	}
 </style>
