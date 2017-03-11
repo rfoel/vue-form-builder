@@ -39,7 +39,6 @@
 								<label class="active" :for="item.name + '-label'">Label</label>
 							</div>
 
-
 							<div v-if="['text', 'password', 'email'].includes(item.type)">
 								<label>Type</label>
 								<select v-model="item.type"  class="browser-default">
@@ -47,6 +46,17 @@
 								</select>
 							</div>
 
+
+							<div v-if="item.type == 'switch'">
+								<div class="input-field">
+									<input :id="item.name + '-labelActive'" type="text" v-model="item.labelActive">
+									<label class="active" :for="item.labelActive + '-labelActive'">Label active</label>
+								</div>
+								<div class="input-field">
+									<input :id="item.name + '-labelInactive'" type="text" v-model="item.labelInactive">
+									<label class="active" :for="item.name + '-labelInactive'">Label inactive</label>
+								</div>
+							</div>
 
 							<div v-if="['checkbox-group', 'radio-group', 'select'].includes(item.type)">
 								<label>Values</label>
@@ -192,6 +202,8 @@
 					icon: "mdi mdi-toggle-switch",
 					label: "Switch field",
 					type: "switch",
+					labelActive: 'Active',
+					labelInactive: 'Inactive'
 				},
 				
 				],
