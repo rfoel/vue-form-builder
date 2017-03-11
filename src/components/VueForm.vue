@@ -195,8 +195,8 @@
 			},
 			addOption (values) {
 				values.push({
-					label: "Option "+(values.length+1),
-					value: "option-"+(values.length+1)
+					label: "Option "+ Date.now(),
+					value: "option-"+ Date.now()
 				})
 			},
 			removeOption (values, index) {
