@@ -44,6 +44,7 @@
 								</select>
 							</div>
 
+
 							<div v-if="['checkbox-group', 'radio-group', 'select'].includes(item.type)">
 								<label>Values</label>
 								<draggable element="ul" :list="item.values" class="collection" :options="{group:{name:'item.values'}}">
@@ -183,6 +184,11 @@
 					icon: "mdi mdi-calendar",
 					label: "Date field",
 					type: "date",
+				},
+				{
+					icon: "mdi mdi-toggle-switch",
+					label: "Switch field",
+					type: "switch",
 				},
 				
 				],
