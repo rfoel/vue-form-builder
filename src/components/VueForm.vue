@@ -7,6 +7,9 @@
 						<i :class="component.icon"></i> {{component.label}}
 					</li>
 				</draggable>
+				<div v-show="formItems.length > 0" class="row">
+					<a class="btn right waves-effect red" @click.stop="clearItems()">Clear</a>
+				</div>
 			</div>
 
 			<div class="col s12 m8">
@@ -237,7 +240,10 @@
 			},
 			removeOption (values, index) {
 				values.splice(index, 1)
-			}
+			},
+			clearItems () {
+				this.formItems =[];
+			},
 		},
 		computed: {
 			componentsOptions () {
