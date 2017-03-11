@@ -7,13 +7,13 @@
 						<i :class="component.icon"></i> {{component.label}}
 					</li>
 				</draggable>
-				<div v-show="formItems.length > 0" class="row">
+				<div v-if="formItems.length > 0">
 					<a class="btn right waves-effect red" @click.stop="clearItems()">Clear</a>
 				</div>
 			</div>
 
 			<div class="col s12 m8">
-				<draggable element="ul" data-collapsible="accordion" :list="formItems" class="collapsible dropArea" :options="formOptions" :move="onMove" @start="isDragging=true" @end="isDragging=false">
+				<draggable element="ul" data-collapsible="accordion" :list="formItems" :class="['collapsible dropArea', !formItems.length ? 'empty' : '']" :options="formOptions" :move="onMove" @start="isDragging=true" @end="isDragging=false" data-content="Drag and drop your fields here">
 					<li v-for="(item, index) in formItems" :key="index">
 						<div class="collapsible-header">
 							<i :class="item.icon"></i>{{item.label}}
@@ -68,7 +68,7 @@
 									</li>
 								</draggable>
 								<div class="row">
-									<a class="btn right waves-effect" @click.stop="addOption(item.values)">Add option</a>
+									<a class="btn right waves-effect vue-green" @click.stop="addOption(item.values)">Add option</a>
 								</div>
 							</div>
 							
@@ -283,10 +283,13 @@
 </script>
 
 <style>
+	.vue-green {
+		background: #41b883 !important;
+	}
+
 	.mdi {
 		font-size: 1.4em;
 	}
-
 
 	.mdi-pin, .mdi-pin-off, .mdi-close {
 		cursor: pointer;
@@ -301,9 +304,26 @@
 	}
 
 	.dropArea {
+		position: relative;
 		background: #f5f5f5;
-		min-height: 300px;
+		min-height: 396px;
 		padding: 10px 0;
+	}
+
+	.dropArea.empty {
+		opacity: 0.5;
+		border: 1px dashed black;
+		border-width: 3px;
+		box-shadow: none;
+	}
+
+	.dropArea.empty:after {
+		content: attr(data-content);
+		position: absolute;
+		text-align: center;
+		top: 50%;
+		left: 0;
+		width: 100%;
 	}
 
 	.collapsible-header {
@@ -329,5 +349,9 @@
 
 	input {
 		margin-bottom: 5px !important;
+	}
+
+	.sortable-ghost {
+		opacity: 0;
 	}
 </style>
