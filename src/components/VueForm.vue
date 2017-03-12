@@ -89,6 +89,8 @@
 		</div>
 
 		<div class="row">
+
+			<h4>Preview:</h4>
 			<vue-form-render :schema="formItems"></vue-form-render>
 		</div>
 
