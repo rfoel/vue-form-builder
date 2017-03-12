@@ -39,6 +39,20 @@
 								<label class="active" :for="item.name + '-label'">Label</label>
 							</div>
 
+
+							<div v-if="item.type == 'range'">
+								<div class="input-field">
+									<input :id="item.name + '-label'" type="number" v-model.number="item.values.min">
+									<label class="active" :for="item.name + '-label'">Min</label>
+								</div>
+
+								<div class="input-field">
+									<input :id="item.name + '-label'" type="number" v-model.number="item.values.max">
+									<label class="active" :for="item.name + '-label'">Max</label>
+								</div>								
+							</div>
+
+
 							<div v-if="['text', 'password', 'email'].includes(item.type)">
 								<label>Type</label>
 								<select v-model="item.type"  class="browser-default">
@@ -211,6 +225,15 @@
 					type: "switch",
 					labelActive: 'Active',
 					labelInactive: 'Inactive'
+				},
+				{
+					icon: "mdi mdi-vector-line",
+					label: "Range Field",
+					type: "range",
+					values: {
+						min:0,
+						max:100
+					}
 				},
 				
 				],
