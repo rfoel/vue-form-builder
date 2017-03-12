@@ -89,6 +89,10 @@
 		</div>
 
 		<div class="row">
+			<vue-form-render :schema="formItems"></vue-form-render>
+		</div>
+
+		<div class="row">
 			<div class="col s12 grey lighten-4">
 				<pre>{{listString}}</pre>
 			</div>
@@ -98,10 +102,11 @@
 
 <script>
 	import draggable from 'vuedraggable'
+	import VueFormRender from './VueFormRender.vue'
 
 	export default {
 		name: 'vue-form',
-		components: { draggable },
+		components: { draggable, VueFormRender },
 		data () {
 			return {
 				components: [
