@@ -49,6 +49,17 @@
 							</div>
 						</div>	
 					</div>
+					<div v-if="opt.type == 'switch'">
+						<label>{{opt.label}}</label>
+						<div class="switch">
+							<label>
+								{{opt.labelInactive}}
+								<input type="checkbox" :name="opt.name">
+								<span class="lever"></span>
+								{{opt.labelActive}}
+							</label>
+						</div>
+					</div>
 					
 
 				</div>
