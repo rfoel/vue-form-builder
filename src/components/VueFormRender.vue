@@ -86,7 +86,7 @@
 		},
 		methods:{
 			concatId: function(item,option){	
-				return item.type + option.value;
+				return item.name + option.value;
 			}},
 			computed: {},
 			watch: {},
