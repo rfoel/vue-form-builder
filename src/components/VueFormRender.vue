@@ -6,8 +6,7 @@
 					<div class="input-field" v-if="['text','email','checkbox','password'].includes(opt.type)">
 						<input :id="opt.name" :type="opt.type" class="validate" :required="opt.required">
 						<label :for="opt.name">{{opt.label}}</label>
-						<!-- <a class="btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="I am tooltip">Hover me!</a> -->
-
+						<span class="tooltipped" data-position="right" data-delay="100" data-tooltip="I am tooltip"><i class="mdi mdi-information"></i></span>
 					</div>
 <!-- 
 					<div class="input-field" v-if="opt.type == 'date'">
@@ -49,6 +48,7 @@
 							</div>
 						</div>	
 					</div>
+
 					<div v-if="opt.type == 'switch'">
 						<label>{{opt.label}}</label>
 						<div class="switch">
@@ -83,14 +83,12 @@
 			}},
 			computed: {},
 			watch: {},
-		// mounted: function () {
-		//   this.$nextTick(function () {
-		//     $('.tooltipped').tooltip({delay: 50});
-		//   })
-		// },
-	}
-</script>
+			mounted () {
+				$('.tooltipped').tooltip({delay: 50});
+			},
+		}
+	</script>
 
-<style>
+	<style>
 
-</style>
+	</style>

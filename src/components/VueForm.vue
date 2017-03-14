@@ -4,10 +4,12 @@
 			<div class="col s12 m4">
 				<draggable element="ul" :list="components" class="collection dragArea" :options="componentsOptions" :clone="onClone">
 					<li v-for="component in components" class="collection-item">
-						<i :class="component.icon"></i> {{component.label}}
+						<i :class="getIcon(component.type)"></i> {{component.label}}
 					</li>
 				</draggable>
 				<div v-if="formItems.length > 0">
+					<button data-target="preview" class="btn">Modal</button>
+					<a class="btn waves-effect vue-green" @click.stop="showPreview()">Preview</a>
 					<a class="btn right waves-effect red" @click.stop="clearItems()">Clear</a>
 				</div>
 			</div>
@@ -16,7 +18,7 @@
 				<draggable element="ul" data-collapsible="accordion" :list="formItems" :class="['collapsible dropArea', !formItems.length ? 'empty' : '']" :options="formOptions" :move="onMove" @start="isDragging=true" @end="isDragging=false" data-content="Drag and drop your fields here">
 					<li v-for="(item, index) in formItems" :key="index">
 						<div class="collapsible-header">
-							<i :class="item.icon"></i>{{item.label}}
+							<i :class="getIcon(item.type)"></i>{{item.label}}
 							<div class="right">
 								<i :class="item.fixed? 'mdi mdi-pin' : 'mdi mdi-pin-off'" @click.stop="item.fixed = !item.fixed" aria-hidden="true"></i>
 								<i class="mdi mdi-delete" @click.stop="destroy(index)" aria-hidden="true"></i>
@@ -39,13 +41,24 @@
 								<label class="active" :for="item.name + '-label'">Label</label>
 							</div>
 
+							<div v-if="item.type == 'range'">
+								<div class="input-field">
+									<input :id="item.name + '-label'" type="number" v-model.number="item.values.min">
+									<label class="active" :for="item.name + '-label'">Min</label>
+								</div>
+
+								<div class="input-field">
+									<input :id="item.name + '-label'" type="number" v-model.number="item.values.max">
+									<label class="active" :for="item.name + '-label'">Max</label>
+								</div>								
+							</div>
+
 							<div v-if="['text', 'password', 'email'].includes(item.type)">
 								<label>Type</label>
 								<select v-model="item.type"  class="browser-default">
 									<option  v-for="(option, index) in optionType" :key="index" :value="option.value" >{{option.label}}</option>
 								</select>
 							</div>
-
 
 							<div v-if="item.type == 'switch'">
 								<div class="input-field">
@@ -80,23 +93,24 @@
 								<div class="row">
 									<a class="btn right waves-effect vue-green" @click.stop="addOption(item.values)">Add option</a>
 								</div>
-							</div>
-							
+							</div>							
 						</div>
 					</li>
 				</draggable>
 			</div>
 		</div>
 
-		<div class="row">
-
-			<h4>Preview:</h4>
-			<vue-form-render :schema="formItems"></vue-form-render>
-		</div>
 
 		<div class="row">
 			<div class="col s12 grey lighten-4">
 				<pre>{{listString}}</pre>
+			</div>
+		</div>
+
+		<div id="preview" class="modal">
+			<div class="modal-content">
+				<h4>Preview:</h4>
+				<vue-form-render :schema="formItems"></vue-form-render>
 			</div>
 		</div>
 	</div>
@@ -113,12 +127,10 @@
 			return {
 				components: [
 				{
-					icon: "mdi mdi-checkbox-marked-outline",
 					label: "Checkbox",
 					type: "checkbox"
 				},
 				{
-					icon: "mdi mdi-checkbox-multiple-marked-outline",
 					label: "Checkbox group",
 					type: "checkbox-group",
 					values: [
@@ -140,7 +152,6 @@
 					]
 				},
 				{
-					icon: "mdi mdi-checkbox-multiple-marked-circle-outline",
 					label: "Radio group",
 					type: "radio-group",
 					values: [
@@ -162,17 +173,14 @@
 					]
 				},
 				{
-					icon: "mdi mdi-textbox",
 					label: "Text field",
 					type: "text",
 				},
 				{
-					icon: "mdi mdi-file-document-box",
 					label: "Textarea",
 					type: "textarea"
 				},
 				{
-					icon: 'mdi mdi-menu',
 					label: 'Select',
 					type: 'select',
 					multiple: false,
@@ -195,24 +203,28 @@
 					]
 				},
 				{
-					icon: "mdi mdi-file",
 					label: "File input",
 					type: "file",
 					multiple: false
 				},
 				{
-					icon: "mdi mdi-calendar",
 					label: "Date field",
 					type: "date",
 				},
 				{
-					icon: "mdi mdi-toggle-switch",
 					label: "Switch field",
 					type: "switch",
 					labelActive: 'Active',
 					labelInactive: 'Inactive'
 				},
-				
+				{
+					label: "Range Field",
+					type: "range",
+					values: {
+						min:0,
+						max:100
+					}
+				}				
 				],
 				formItems:[],
 				optionType: [
@@ -229,6 +241,18 @@
 					value: "password",
 				},
 				],
+				icons:{
+					'checkbox': "mdi mdi-checkbox-marked-outline",
+					'checkbox-group': "mdi mdi-checkbox-multiple-marked-outline",
+					'radio-group': "mdi mdi-checkbox-multiple-marked-circle-outline",
+					'text': "mdi mdi-textbox",
+					'textarea': "mdi mdi-file-document-box",
+					'select': 'mdi mdi-menu',
+					'file': "mdi mdi-file",
+					'date': "mdi mdi-calendar",
+					'switch': "mdi mdi-toggle-switch",
+					'range': "mdi mdi-ray-vertex"
+				},
 				isDragging: false,
 				delayedDragging:false
 			}
@@ -263,6 +287,12 @@
 			clearItems () {
 				this.formItems =[];
 			},
+			showPreview () {
+				$('#preview').modal('open')
+			},
+			getIcon(type) {
+				return this.icons[type];
+			}
 		},
 		computed: {
 			componentsOptions () {
