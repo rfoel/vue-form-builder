@@ -60,6 +60,13 @@
 							</label>
 						</div>
 					</div>
+
+					<div v-if="opt.type == 'range'">
+						<label>{{opt.label}}</label>
+						<p class="range-field">
+							<input type="range" :id="opt.name" :min="opt.values.min" :max="opt.values.max" />
+						</p>
+					</div>
 					
 
 				</div>
@@ -79,7 +86,7 @@
 		},
 		methods:{
 			concatId: function(item,option){	
-				return item.type + option.value;
+				return item.name + option.value;
 			}},
 			computed: {},
 			watch: {},

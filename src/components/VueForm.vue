@@ -224,7 +224,7 @@
 						min:0,
 						max:100
 					}
-				}				
+				},				
 				],
 				formItems:[],
 				optionType: [
