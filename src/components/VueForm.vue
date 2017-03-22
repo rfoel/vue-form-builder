@@ -8,7 +8,6 @@
 					</li>
 				</draggable>
 				<div v-if="formItems.length > 0">
-					<button data-target="preview" class="btn">Modal</button>
 					<a class="btn waves-effect vue-green" @click.stop="showPreview()">Preview</a>
 					<a class="btn right waves-effect red" @click.stop="clearItems()">Clear</a>
 				</div>
@@ -288,11 +287,18 @@
 				this.formItems =[];
 			},
 			showPreview () {
-				$('#preview').modal('open')
+				$(function() {
+					$('#preview').modal('open')
+				});
 			},
 			getIcon(type) {
 				return this.icons[type];
-			}
+			},
+		},
+		mounted () {
+			this.$nextTick(function () {
+				$('.modal').modal()
+			})
 		},
 		computed: {
 			componentsOptions () {

@@ -89,10 +89,7 @@
 				return item.name + option.value;
 			}},
 			computed: {},
-			watch: {},
-			mounted () {
-				$('.tooltipped').tooltip({delay: 50});
-			},
+			watch: {}
 		}
 	</script>
 
