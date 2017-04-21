@@ -3,10 +3,9 @@ var $ = global.jQuery;
 window.$ = $;
 
 import Vue from 'vue'
-import App from './App'
+import VueForm from './VueForm'
 
 new Vue({
 	el: '#app',
-	template: '<App/>',
-	components: { App }
+	components: { VueForm }
 })

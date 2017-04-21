@@ -8,7 +8,6 @@
 					</li>
 				</draggable>
 				<div v-if="formItems.length > 0">
-					<a class="btn waves-effect vue-green" @click.stop="showPreview()">Preview</a>
 					<a class="btn right waves-effect red" @click.stop="clearItems()">Clear</a>
 				</div>
 			</div>
@@ -99,8 +98,7 @@
 			</div>
 		</div>
 
-
-		<div class="row">
+<!-- 		<div class="row">
 			<div class="col s12 grey lighten-4">
 				<pre>{{listString}}</pre>
 			</div>
@@ -111,7 +109,7 @@
 				<h4>Preview:</h4>
 				<vue-form-render :schema="formItems"></vue-form-render>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </template>
 
@@ -286,19 +284,9 @@
 			clearItems () {
 				this.formItems =[];
 			},
-			showPreview () {
-				$(function() {
-					$('#preview').modal('open')
-				});
-			},
 			getIcon(type) {
 				return this.icons[type];
 			},
-		},
-		mounted () {
-			this.$nextTick(function () {
-				$('.modal').modal()
-			})
 		},
 		computed: {
 			componentsOptions () {
@@ -361,7 +349,7 @@
 	.dropArea {
 		position: relative;
 		background: #f5f5f5;
-		min-height: 396px;
+		min-height: 440px;
 		padding: 10px 0;
 	}
 
