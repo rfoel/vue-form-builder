@@ -48,7 +48,7 @@
 								<div class="input-field">
 									<input :id="item.name + '-label'" type="number" v-model.number="item.values.max">
 									<label class="active" :for="item.name + '-label'">Max</label>
-								</div>								
+								</div>
 							</div>
 
 							<div v-if="['text', 'password', 'email'].includes(item.type)">
@@ -84,19 +84,21 @@
 											</div>
 											<div class="middle" v-if="item.values.length > 2">
 												<i class="mdi mdi-close" @click.stop="removeOption(item.values, index)"></i>
-											</div>											
+											</div>
 										</div>
 									</li>
 								</draggable>
 								<div class="row">
 									<a class="btn right waves-effect vue-green" @click.stop="addOption(item.values)">Add option</a>
 								</div>
-							</div>							
+							</div>
 						</div>
 					</li>
 				</draggable>
 			</div>
 		</div>
+
+		<input type="hidden" name="inputs" :value="listString">
 
 <!-- 		<div class="row">
 			<div class="col s12 grey lighten-4">
@@ -221,7 +223,7 @@
 						min:0,
 						max:100
 					}
-				},				
+				},
 				],
 				formItems:[],
 				optionType: [
@@ -293,9 +295,9 @@
 				return  {
 					sort: false,
 					group:{
-						name:'components', 
-						pull:'clone', 
-						put:false 
+						name:'components',
+						pull:'clone',
+						put:false
 					}
 				}
 			},
@@ -308,7 +310,7 @@
 				}
 			},
 			listString(){
-				return this.formItems;  
+				return JSON.stringify(this.formItems);
 			}
 		},
 		watch: {
